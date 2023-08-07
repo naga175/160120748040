@@ -1,7 +1,7 @@
 export type DepartureTime = {
-    hours:number;
-    minutes:number;
-    seconds:number;
+    Hours:number;
+    Minutes:number;
+    Seconds:number;
 }
 
 export type SeatsAvailable = {

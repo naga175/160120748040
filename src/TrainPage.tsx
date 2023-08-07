@@ -56,7 +56,7 @@ const TrainPage:React.FC<TrainPageProp> = ({trains}) => {
                        price :{train?.price.AC}
                       </Typography>
                       <Typography  color="text.secondary">
-                       Depature Time: {train?.departureTime.hours}hours{train?.departureTime.minutes}Minutes{train?.departureTime.seconds}seconds
+                       Depature Time: {train?.departureTime.Hours}hours{train?.departureTime.Minutes}Minutes{train?.departureTime.Seconds}seconds
                       </Typography>
                     </Grid>
                   </Grid>

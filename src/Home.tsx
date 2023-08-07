@@ -43,13 +43,13 @@ const Home = () => {
         b.seatsAvailable.AC +
           b.seatsAvailable.sleeper -
           (a.seatsAvailable.AC + a.seatsAvailable.sleeper) ||
-        b.departureTime.hours +
+        b.departureTime.Hours +
           b.delayedBy / 60 -
-          (a.departureTime.hours + a.delayedBy / 60) ||
-        b.departureTime.minutes +
+          (a.departureTime.Hours + a.delayedBy / 60) ||
+        b.departureTime.Minutes +
           (b.delayedBy % 60) -
-          (a.departureTime.minutes + (a.delayedBy % 60)) ||
-        b.departureTime.seconds - a.departureTime.seconds
+          (a.departureTime.Minutes + (a.delayedBy % 60)) ||
+        b.departureTime.Seconds - a.departureTime.Seconds
       );
     });
   };
