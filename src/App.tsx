@@ -1,24 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
+import { Train } from "./types";
+import Trains from "./Trains";
 
-function App() {
+const  App =() => {
+  
+  const [trains, setTrains] = useState<Train[]>([]);
+
+
+  useEffect(() => {
+    var token: string = "";
+
+    const reqBody = {
+      companyName: "CBIT",
+      clientID: "9aef95f9-bbd3-4f33-a7ee-30f385b8d70f",
+      ownerName: "Naga Bajjuri",
+      rollNo: "160120748040",
+      ownerEmail: "ugs20a131_csm.nagaraju@cbit.org.in",
+      clientSecret: "PUXAHWBbQHZmmAQW",
+    };
+
+    axios.post("http://20.244.56.144/train/auth", reqBody).then((response) => {
+      token = response.data.access_token;
+      console.log(token);
+
+      const headers = { Authorization: `Bearer ${token}` };
+      axios
+        .get("http://20.244.56.144:80/train/trains", { headers })
+        .then((response) => {
+          console.log(response);
+          setTrains(sort(response.data));
+        });
+    });
+  }, []);
+
+  const sort = (trains: Train[]) => {
+    return trains.sort(function (a, b) {
+      return (
+        a.price.sleeper - b.price.sleeper ||
+        a.price.AC - b.price.AC ||
+        b.seatsAvailable.AC +
+          b.seatsAvailable.sleeper -
+          (a.seatsAvailable.AC + a.seatsAvailable.sleeper) ||
+        b.departureTime.hours +
+          b.delayedBy / 60 -
+          (a.departureTime.hours + a.delayedBy / 60) ||
+        b.departureTime.minutes +
+          (b.delayedBy % 60) -
+          (a.departureTime.minutes + (a.delayedBy % 60)) ||
+        b.departureTime.seconds - a.departureTime.seconds
+      );
+    });
+
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Trains trains={trains} />
     </div>
   );
 }
