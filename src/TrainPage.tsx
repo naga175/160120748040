@@ -1,25 +1,22 @@
+import { Paper, Grid, Typography } from "@mui/material";
 import React from "react";
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-
-import { Train } from './types'
-import { useNavigate} from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { Train } from "./types";
 
 
-export type TrainsProp = {
-    trains : Train[]
+export type TrainPageProp = {
+  trains:Train[]
 }
+const TrainPage:React.FC<TrainPageProp> = ({trains}) => {
+  const { trainNumber } = useParams();
 
-const Trains:React.FC<TrainsProp> = ({trains}) => {
+  console.log(trainNumber);
 
-    const navigate = useNavigate();
+  const train : Train = trains.filter((train)=>train?.trainNumber === trainNumber)?.[0];
 
-    return (
-        <div>
-          {trains?.map((train) => (
-            <Paper
-            key={train.trainNumber}
+  return (
+    <Paper
+            key={train?.trainNumber}
               sx={{
                 p: 2,
                 margin: 'auto',
@@ -30,7 +27,6 @@ const Trains:React.FC<TrainsProp> = ({trains}) => {
                 backgroundColor: (theme) =>
                   theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
               }}
-              onClick = {()=>navigate(`/train/${train.trainNumber}`)}
             >
               <Grid container spacing={2}>
     
@@ -38,17 +34,17 @@ const Trains:React.FC<TrainsProp> = ({trains}) => {
                   <Grid item xs container direction="column" spacing={2}>
                     <Grid item xs>
                       <Typography gutterBottom  component="div">
-                      TrainName :{train.trainName}
+                      TrainName :{train?.trainName}
                       </Typography>
                       <Typography  gutterBottom>
-                      trainNumber: {train.trainNumber}
+                      trainNumber: {train?.trainNumber}
                       </Typography>
                       <Typography  color="text.secondary">
                        Sleeper Class 
                       </Typography>
                       <Typography  color="text.secondary">
-                       seats Available:{train.seatsAvailable.sleeper}
-                       price :{train.price.sleeper}
+                       seats Available:{train?.seatsAvailable.sleeper}
+                       price :{train?.price.sleeper}
                       </Typography>
                     </Grid>
                     <Grid item>
@@ -56,26 +52,23 @@ const Trains:React.FC<TrainsProp> = ({trains}) => {
                        AC Class 
                       </Typography>
                     <Typography  color="text.secondary">
-                       seats Available:{train.seatsAvailable.AC}
-                       price :{train.price.AC}
+                       seats Available:{train?.seatsAvailable.AC}
+                       price :{train?.price.AC}
                       </Typography>
                       <Typography  color="text.secondary">
-                       Depature Time: {train.departureTime.hours}hours{train.departureTime.minutes}Minutes{train.departureTime.seconds}seconds
+                       Depature Time: {train?.departureTime.hours}hours{train?.departureTime.minutes}Minutes{train?.departureTime.seconds}seconds
                       </Typography>
                     </Grid>
                   </Grid>
                   <Grid item>
                     <Typography  component="div">
-                      Delayed By :{train.delayedBy}
+                      Delayed By :{train?.delayedBy}
                     </Typography>
                   </Grid>
                 </Grid>
               </Grid>
             </Paper>
-          )
-          )};
-        </div>
-      );
-}
+  )
+};
 
-export default Trains
+export default TrainPage;
